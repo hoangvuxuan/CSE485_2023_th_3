@@ -8,7 +8,7 @@ class User {
     private $created_at;
     private $updated_at;
     private $db;
-    private static $tb_name = "User";
+    private static $tb_name = "users";
 
     public function __construct() {
         $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
