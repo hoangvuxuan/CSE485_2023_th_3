@@ -6,28 +6,35 @@ class CourseUser {
     private $created_at;
     private $updated_at;
 
-    public function __construct($course_id, $user_id) {
-        $this->course_id = $course_id;
-        $this->user_id = $user_id;
-        $this->created_at = date('Y-m-d H:i:s');
-        $this->updated_at = date('Y-m-d H:i:s');
+    private $db;
+    private static $tb_name = "CourseUser";
+
+    public function __construct() {
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);         
+    }
+
+    public static function getAll()
+    {
+        
+        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $tb = self::$tb_name;
+        $query = $db->query("SELECT * FROM ".$tb);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getCourseId() {
         return $this->course_id;
     }
 
-    public function setCourseId($course_id) {
-        $this->course_id = $course_id;
-    }
-
+ 
     public function getUserId() {
         return $this->user_id;
     }
 
-    public function setUserId($user_id) {
-        $this->user_id = $user_id;
-    }
+  
 
     public function getCreatedAt() {
         return $this->created_at;

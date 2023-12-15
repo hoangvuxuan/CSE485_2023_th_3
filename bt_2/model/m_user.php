@@ -7,14 +7,25 @@ class User {
     private $password;
     private $created_at;
     private $updated_at;
+    private $db;
+    private static $tb_name = "User";
 
-    public function __construct($name, $email, $password) {
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->created_at = date('Y-m-d H:i:s');
-        $this->updated_at = date('Y-m-d H:i:s');
+    public function __construct() {
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);         
     }
+
+    public static function getAll()
+    {
+        
+        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $tb = self::$tb_name;
+        $query = $db->query("SELECT * FROM ".$tb);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function getId() {
         return $this->id;
@@ -24,24 +35,12 @@ class User {
         return $this->name;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-    }
-
     public function getEmail() {
         return $this->email;
     }
 
-    public function setEmail($email) {
-        $this->email = $email;
-    }
-
     public function getPassword() {
         return $this->password;
-    }
-
-    public function setPassword($password) {
-        $this->password = $password;
     }
 
     public function getCreatedAt() {

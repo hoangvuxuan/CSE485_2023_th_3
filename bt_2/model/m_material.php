@@ -8,12 +8,23 @@ class Material {
     private $created_at;
     private $updated_at;
 
-    public function __construct($lesson_id, $title, $file_path) {
-        $this->lesson_id = $lesson_id;
-        $this->title = $title;
-        $this->file_path = $file_path;
-        $this->created_at = date('Y-m-d H:i:s');
-        $this->updated_at = date('Y-m-d H:i:s');
+    private $db;
+    private static $tb_name = "Material";
+
+    public function __construct() {
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);         
+    }
+
+    public static function getAll()
+    {
+        
+        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $tb = self::$tb_name;
+        $query = $db->query("SELECT * FROM ".$tb);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getId() {
@@ -24,25 +35,17 @@ class Material {
         return $this->lesson_id;
     }
 
-    public function setLessonId($lesson_id) {
-        $this->lesson_id = $lesson_id;
-    }
-
+  
     public function getTitle() {
         return $this->title;
     }
 
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
+  
     public function getFilePath() {
         return $this->file_path;
     }
 
-    public function setFilePath($file_path) {
-        $this->file_path = $file_path;
-    }
+    
 
     public function getCreatedAt() {
         return $this->created_at;

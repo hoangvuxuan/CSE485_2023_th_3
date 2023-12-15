@@ -8,12 +8,23 @@ class Option {
     private $created_at;
     private $updated_at;
 
-    public function __construct($question_id, $option_text, $is_correct) {
-        $this->question_id = $question_id;
-        $this->option_text = $option_text;
-        $this->is_correct = $is_correct;
-        $this->created_at = date('Y-m-d H:i:s');
-        $this->updated_at = date('Y-m-d H:i:s');
+    private $db;
+    private static $tb_name = "options";
+
+    public function __construct() {
+        $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);         
+    }
+
+    public static function getAll()
+    {
+        
+        $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $tb = self::$tb_name;
+        $query = $db->query("SELECT * FROM ".$tb);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getId() {
@@ -24,25 +35,19 @@ class Option {
         return $this->question_id;
     }
 
-    public function setQuestionId($question_id) {
-        $this->question_id = $question_id;
-    }
+ 
 
     public function getOptionText() {
         return $this->option_text;
     }
 
-    public function setOptionText($option_text) {
-        $this->option_text = $option_text;
-    }
+   
 
     public function getIsCorrect() {
         return $this->is_correct;
     }
 
-    public function setIsCorrect($is_correct) {
-        $this->is_correct = $is_correct;
-    }
+  
 
     public function getCreatedAt() {
         return $this->created_at;
