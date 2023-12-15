@@ -9,7 +9,7 @@ class Material {
     private $updated_at;
 
     private $db;
-    private static $tb_name = "Material";
+    private static $tb_name = "materials";
 
     public function __construct() {
         $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
