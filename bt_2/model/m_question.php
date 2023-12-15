@@ -41,6 +41,7 @@ class Question {
     public function getUpdatedAt() {
         return $this->updated_at;
     }
+    
 }
 
 ?>
